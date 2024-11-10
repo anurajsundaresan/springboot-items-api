@@ -1,0 +1,67 @@
+server:
+  shutdown: graceful
+api:
+  path: /api/v1/items
+management:
+  server:
+    port: 9001
+  endpoint:
+    health:
+      enabled: true
+      show-details: "ALWAYS"
+  endpoints:
+    web: 
+      exposure:
+        include: "health"
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true
+spring:
+  application:
+    name: springboot-items-api
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: false
+        max-page-size: 2000
+  datasource:
+    #------ Postgres ----
+    #url: jdbc:postgresql://${postgres_host}:${postgres_port}/${postgres_db}
+    #driver-class-name: org.postgresql.Driver
+    #username: ${postgres_username}
+    #password: ${postgres_password}
+    # ----- H2 ------
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    # ----- MYSQL ---
+    #url: jdbc:mysql://localhost:3306/archetype
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #username: ${mysql_username}
+    #password: ${mysql_password} # dummy password,
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
+        #dialect: org.hibernate.dialect.MySQL5Dialect
+  sql:
+    init:
+      mode: always
+      platform: H2
+      #platform: postgres
+  #redis:  
+  #  host: localhost
+  #  port: 6379
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    com.github.michaelsteven.archetype.springboot.items: TRACE
